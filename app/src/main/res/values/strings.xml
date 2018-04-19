@@ -15,5 +15,6 @@
     <string name="roboto_regular">fonts/Roboto-Regular.ttf</string>
     <string name="roboto_bold">fonts/Roboto-Bold.ttf</string>
     <string name="select_school">Select your School</string>
+    <string name="text_enterschoolcode">Enter your school code</string>
 
 </resources>

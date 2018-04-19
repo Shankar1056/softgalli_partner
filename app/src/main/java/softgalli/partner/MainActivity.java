@@ -1,11 +1,19 @@
 package softgalli.partner;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,19 +56,50 @@ public class MainActivity extends AppCompatActivity {
         switch (textView.getId()){
             case R.id.tv_soft:
                 ClsGeneral.setPreferences(MainActivity.this, PreferenceName.SCHOOLNAME, PreferenceName.SOFTGALLI);
-                startActivity(new Intent(MainActivity.this, StuTeaMainActivity.class));
+                openDialog("soft_321");
                 break;
 
             case R.id.tv_gurukul:
                 ClsGeneral.setPreferences(MainActivity.this, PreferenceName.SCHOOLNAME, PreferenceName.GURUKUL);
-                startActivity(new Intent(MainActivity.this, StuTeaMainActivity.class));
+                openDialog("gurukul_246");
                 break;
 
             case R.id.tv_sps:
                 ClsGeneral.setPreferences(MainActivity.this, PreferenceName.SCHOOLNAME, PreferenceName.SPS);
-                startActivity(new Intent(MainActivity.this, StuTeaMainActivity.class));
+                openDialog("sps_986");
                 break;
 
         }
+    }
+
+    private void openDialog(final String soft) {
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.activity_dialog);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.gravity = Gravity.BOTTOM;
+        lp.windowAnimations = R.style.DialogAnimation;
+        dialog.getWindow().setAttributes(lp);
+        final EditText code = (EditText) dialog.findViewById(R.id.code);
+        Button submit = (Button) dialog.findViewById(R.id.submit);
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (code.getText().toString().trim().equals(soft))
+                {
+                    dialog.dismiss();
+                    startActivity(new Intent(MainActivity.this, StuTeaMainActivity.class));
+                }
+                else {
+                    Toast.makeText(MainActivity.this, "Invalid code", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+        });
+
+        dialog.show();
+
     }
 }
