@@ -7,6 +7,7 @@ package softgalli.partner.common;
 public class PreferenceName  {
     public static final String TRUE = "true";
     public static final String SCHOOLNAME = "true";
+    public static final String DYNAMICURL = "url";
 
 
 

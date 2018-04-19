@@ -1,6 +1,7 @@
 package softgalli.partner.retrofit;
 
 
+import softgalli.partner.model.SchoolListModel;
 import softgalli.partner.model.StuTeaModel;
 
 /**
@@ -12,4 +13,6 @@ public interface ServiceMethods {
                     String classteacher_for, String joining_date, String address, DownlodableCallback<StuTeaModel> callback);
     void addstudent(String regestration_id, String name, String email, String mobile, String clas, String sec,
                     String admission_date, String residential_address, DownlodableCallback<StuTeaModel> callback);
+
+    void allschool(DownlodableCallback<SchoolListModel> callback);
 }

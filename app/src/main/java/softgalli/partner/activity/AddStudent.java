@@ -170,6 +170,9 @@ public class AddStudent extends AppCompatActivity {
                     Toast.makeText(AddStudent.this, ""+result.getData(), Toast.LENGTH_SHORT).show();
                     finish();
                 }
+                else {
+                    Toast.makeText(AddStudent.this, ""+result.getMsg(), Toast.LENGTH_SHORT).show();
+                }
 
             }
 

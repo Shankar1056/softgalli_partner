@@ -16,6 +16,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import softgalli.partner.common.ClsGeneral;
 import softgalli.partner.common.PreferenceName;
+import softgalli.partner.model.SchoolListModel;
 import softgalli.partner.model.StuTeaModel;
 
 /**
@@ -38,12 +39,10 @@ public class RetrofitDataProvider extends AppCompatActivity implements ServiceMe
                 .addInterceptor(interceptor)
                 .build();
 
-        if (ClsGeneral.getPreferences(context, PreferenceName.SCHOOLNAME).equals(PreferenceName.SOFTGALLI)){
-            url = ApiUrl.BASE_URL_SOFT;
-        }else if (ClsGeneral.getPreferences(context, PreferenceName.SCHOOLNAME).equals(PreferenceName.GURUKUL)){
-            url = ApiUrl.BASE_URL_GURUKUL;
-        }else if (ClsGeneral.getPreferences(context, PreferenceName.SCHOOLNAME).equals(PreferenceName.SPS)){
-            url = ApiUrl.BASE_URL_SPS;
+        if (ClsGeneral.getPreferences(context, PreferenceName.DYNAMICURL).equals("")){
+            url = ApiUrl.BASE_URL;
+        }else{
+            url = ClsGeneral.getPreferences(context, PreferenceName.DYNAMICURL);
         }
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -119,6 +118,39 @@ public class RetrofitDataProvider extends AppCompatActivity implements ServiceMe
 
                     @Override
                     public void onFailure(@NonNull Call<StuTeaModel> call, @NonNull Throwable t) {
+                        Log.d("Result", "t" + t.getMessage());
+                        callback.onFailure(t.getMessage());
+
+                    }
+                }
+        );
+    }
+
+    @Override
+    public void allschool(final DownlodableCallback<SchoolListModel> callback) {
+        createRetrofitService().schoolList().enqueue(
+                new Callback<SchoolListModel>() {
+                    @Override
+                    public void onResponse(@NonNull Call<SchoolListModel> call, @NonNull final Response<SchoolListModel> response) {
+                        if (response.isSuccessful()) {
+
+                            SchoolListModel mobileRegisterPojo = response.body();
+                            callback.onSuccess(mobileRegisterPojo);
+
+                        } else
+
+                        {
+                            if (response.code() == 401)
+                            {
+                                callback.onUnauthorized(response.code());
+                            }
+                            else {
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<SchoolListModel> call, @NonNull Throwable t) {
                         Log.d("Result", "t" + t.getMessage());
                         callback.onFailure(t.getMessage());
 

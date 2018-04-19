@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,20 +20,26 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import softgalli.partner.activity.AddStudent;
 import softgalli.partner.activity.StuTeaMainActivity;
+import softgalli.partner.adapter.HomeCategoryAdapter;
 import softgalli.partner.common.ClsGeneral;
 import softgalli.partner.common.PreferenceName;
+import softgalli.partner.common.Utilz;
+import softgalli.partner.intrface.OnClickListener;
+import softgalli.partner.model.SchoolListModel;
+import softgalli.partner.model.StuTeaModel;
+import softgalli.partner.retrofit.DownlodableCallback;
+import softgalli.partner.retrofit.RetrofitDataProvider;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.tv_soft)
-    TextView tv_soft;
-    @BindView(R.id.tv_gurukul)
-    TextView tv_gurukul;
-    @BindView(R.id.tv_sps)
-    TextView tv_sps;
+    @BindView(R.id.rv_school)
+    RecyclerView rv_school;
+
+    private RetrofitDataProvider retrofitDataProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +53,50 @@ public class MainActivity extends AppCompatActivity {
                 .build()
         );
 
+        retrofitDataProvider = new RetrofitDataProvider(this);
+
+        rv_school.setLayoutManager(new LinearLayoutManager(this));
+        getAllSchool();
+
+    }
+
+    private void getAllSchool() {
+        Utilz.showDailog(MainActivity.this, getResources().getString(R.string.pleasewait));
+        retrofitDataProvider.allschool(new DownlodableCallback<SchoolListModel>() {
+            @Override
+            public void onSuccess(final SchoolListModel result) {
+                Utilz.closeDialog();
+
+                if (result.getStatus().contains(PreferenceName.TRUE)) {
+
+                    rv_school.setAdapter(new HomeCategoryAdapter(MainActivity.this, result.getData(), R.layout.activity_main_row, new OnClickListener() {
+                        @Override
+                        public void onClick(int pos) {
+                            ClsGeneral.setPreferences(MainActivity.this, PreferenceName.DYNAMICURL, result.getData().get(pos).getUrl_link());
+                            openDialog(result.getData().get(pos).getSchool_id());
+                        }
+                    }));
+                }
+
+            }
+
+            @Override
+            public void onFailure(String error) {
+                Utilz.closeDialog();
+            }
+
+            @Override
+            public void onUnauthorized(int errorNumber) {
+                Utilz.closeDialog();
+            }
+        });
     }
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
-    @OnClick({R.id.tv_soft, R.id.tv_gurukul, R.id.tv_sps})
+   /* @OnClick({R.id.tv_soft, R.id.tv_gurukul, R.id.tv_sps})
     void OntextClick(TextView textView){
         switch (textView.getId()){
             case R.id.tv_soft:
@@ -71,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-
+*/
     private void openDialog(final String soft) {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.activity_dialog);

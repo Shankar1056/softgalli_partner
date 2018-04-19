@@ -15,6 +15,7 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,8 +30,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class AddTeacher extends AppCompatActivity {
 
-    @BindView(R.id.input_rollnumber)
-    EditText input_rollnumber;
     @BindView(R.id.input_name)
     EditText input_name;
     @BindView(R.id.input_qualification)
@@ -77,8 +76,8 @@ public class AddTeacher extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (input_rollnumber.getText().toString().trim().equals("")){
-                    Toast.makeText(AddTeacher.this, "Enter user id", Toast.LENGTH_SHORT).show();
+                if (input_name.getText().toString().trim().equals("")){
+                    Toast.makeText(AddTeacher.this, "Enter your name", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (Utilz.isInternetConnected(AddTeacher.this)) {
@@ -136,7 +135,9 @@ public class AddTeacher extends AppCompatActivity {
 
     private void submitData() {
         Utilz.showDailog(AddTeacher.this, getResources().getString(R.string.pleasewait));
-        String rollNumber = input_rollnumber.getText().toString().trim();
+        final int random = new Random().nextInt(101) + 20;
+        String userId = input_name.getText().toString().trim().replace(" ","");
+        String rollNumber = (userId+""+random);
         String name = input_name.getText().toString().trim();
         String qualification = input_qualification.getText().toString().trim();
         String mobile = input_mobile.getText().toString().trim();
@@ -145,7 +146,7 @@ public class AddTeacher extends AppCompatActivity {
         String classtea = input_classtea.getText().toString().trim();
         String joindate = input_joindate.getText().toString().trim();
         String address = input_address.getText().toString().trim();
-        retrofitDataProvider.addteacher(rollNumber, name, qualification, mobile, alternatenumber, emailid, classtea, joindate, address, new DownlodableCallback<StuTeaModel>() {
+       retrofitDataProvider.addteacher(rollNumber, name, qualification, mobile, alternatenumber, emailid, classtea, joindate, address, new DownlodableCallback<StuTeaModel>() {
             @Override
             public void onSuccess(final StuTeaModel result) {
                 //  closeDialog();

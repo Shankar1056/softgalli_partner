@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:ignore="MissingPrefix"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
     tools:context=".MainActivity"
     android:background="@drawable/gradient">
 
@@ -15,90 +14,16 @@
         android:text="@string/select_school"
         android:textSize="@dimen/text_20"
         android:gravity="center"
+        android:layout_marginTop="@dimen/margin_20"
         android:textColor="@color/colorTextWhite"
-        android:fontFamily="@string/roboto_bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        fontPath="@string/roboto_bold" />
 
-    <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        card_view:cardElevation="3dp"
-        card_view:cardCornerRadius="4dp"
-        card_view:cardUseCompatPadding="true"
-        android:layout_marginLeft="@dimen/margin_10"
-        android:layout_marginRight="@dimen/margin_10"
-        android:layout_marginTop="@dimen/margin_40">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="80dp">
+<android.support.v7.widget.RecyclerView
+    android:id="@+id/rv_school"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/tv_soft"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textSize="@dimen/text_17"
-                android:gravity="center"
-                android:fontFamily="@string/roboto_regular"
-                android:text="@string/softgalli_school"/>
+</android.support.v7.widget.RecyclerView>
 
-        </LinearLayout>
-
-    </android.support.v7.widget.CardView>
-    <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        card_view:cardElevation="3dp"
-        card_view:cardCornerRadius="4dp"
-        card_view:cardUseCompatPadding="true"
-        android:layout_marginLeft="@dimen/margin_10"
-        android:layout_marginRight="@dimen/margin_10"
-        android:layout_marginTop="@dimen/margin_40">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="80dp">
-
-            <TextView
-                android:id="@+id/tv_gurukul"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textSize="@dimen/text_17"
-                android:gravity="center"
-                android:fontFamily="@string/roboto_regular"
-                android:text="@string/gurukul_school"/>
-
-        </LinearLayout>
-
-    </android.support.v7.widget.CardView>
-    <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        card_view:cardElevation="3dp"
-        card_view:cardCornerRadius="4dp"
-        card_view:cardUseCompatPadding="true"
-        android:layout_marginLeft="@dimen/margin_10"
-        android:layout_marginRight="@dimen/margin_10"
-        android:layout_marginTop="@dimen/margin_40">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="80dp">
-
-            <TextView
-                android:id="@+id/tv_sps"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textSize="@dimen/text_17"
-                android:gravity="center"
-                android:fontFamily="@string/roboto_regular"
-                android:text="@string/sps_nawalsahi"/>
-
-        </LinearLayout>
-
-    </android.support.v7.widget.CardView>
 
 </LinearLayout>
